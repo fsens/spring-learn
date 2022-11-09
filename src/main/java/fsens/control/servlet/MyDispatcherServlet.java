@@ -93,7 +93,7 @@ public class MyDispatcherServlet extends HttpServlet {
 
         //得到HandlerAdapter
         HandlerAdapter ha = new MyHandlerAdapter();
-        //执行
+        //执行对应的controller
         ha.hand(request, response, handler, beans);
 
     }

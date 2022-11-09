@@ -75,6 +75,7 @@ public class MyHandlerAdapter implements HandlerAdapter {
             for (Map.Entry<String, Object> entry : argumentResolvers.entrySet()) {
                 ArgumentResolver ar = (ArgumentResolver) entry.getValue();
 
+                //只能解析单一注解
                 if (ar.support(paramClazz, paramIndex, method)) {
                     args[i++] = ar.argumentResolver(request, response, paramClazz, paramIndex, method);
                 }
