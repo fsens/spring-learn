@@ -8,7 +8,9 @@ import java.lang.reflect.Method;
  */
 public class MethodHandler {
 
+
    private String url;
+
 
    private Method method;
 
@@ -17,6 +19,7 @@ public class MethodHandler {
        this.url = url;
        this.method = method;
    }
+
 
    public void setMethod(Method method){
        this.method = method;
@@ -32,11 +35,13 @@ public class MethodHandler {
        return this.url;
    }
 
+
    public boolean isSupport(String url){
-       if(url == this.url){
-       return true;
+
+       if(url.equals(this.url)){
+           return true;
        }
-    return false;
+       return false;
    }
 
 

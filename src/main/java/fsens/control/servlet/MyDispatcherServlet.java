@@ -144,7 +144,7 @@ public class MyDispatcherServlet extends HttpServlet {
                 Class clazz = Class.forName(cn);
 
                 //将注解了myController或者myRequestMapping或者myService实例化
-                if(clazz.isAnnotationPresent(myController.class)&&clazz.isAnnotationPresent(myRequestMapping.class)){
+                if(clazz.isAnnotationPresent(myController.class)){
                     myRequestMapping myrequestmapping = (myRequestMapping) clazz.getAnnotation(myRequestMapping.class);
                     String rmValue = myrequestmapping.value();
                     Object instance = clazz.newInstance();
@@ -201,7 +201,7 @@ public class MyDispatcherServlet extends HttpServlet {
                 //遍历该类的字段,查找注解了myQualifier的字段,并对其注入实例
                 for(Field field : fields){
                     if(field.isAnnotationPresent(myQualifier.class)){
-                        myQualifier myqualifier = (myQualifier) clazz.getAnnotation(myQualifier.class);
+                        myQualifier myqualifier = (myQualifier) field.getAnnotation(myQualifier.class);
                         String value = myqualifier.value();
                         field.setAccessible(true);
                         try {

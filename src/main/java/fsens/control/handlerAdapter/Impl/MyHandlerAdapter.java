@@ -35,6 +35,7 @@ public class MyHandlerAdapter implements HandlerAdapter {
         //得到method所在的类
         Object instance = beans.get("/" + path.split("/")[1]);
         try {
+            //调用API执行controller
             method.invoke(instance, args);
         } catch (IllegalAccessException e) {
             e.printStackTrace();

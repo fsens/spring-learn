@@ -1,11 +1,15 @@
 package fsens.model;
 
 public class User {
-    private String name;
+    private String name = "fsens";
 
-    private String sex;
+    private String sex = "man";
 
-    private String age;
+    private String age = "20";
+
+    public User(){
+
+    }
 
     public User(String name, String sex, String age){
         this.name = name;

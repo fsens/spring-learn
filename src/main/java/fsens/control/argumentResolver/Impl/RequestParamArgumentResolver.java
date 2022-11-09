@@ -45,17 +45,13 @@ public class RequestParamArgumentResolver implements ArgumentResolver {
 
                 String value = mrp.value();
                 String str = request.getParameter(value);
-                    if(mrp.required()&&(str != "name" || str != "sex" || str != "age")){
+                    if(mrp.required()&&(!(str.equals("name"))&& !(str.equals("sex")) && !(str.equals("age")))){
                         try{
-                            response.getWriter().write("未输入参数");
-                            //如果这样，就抛出异常，表示未找到该资源
-                            throw new ServletException();
+                            response.getWriter().write("404 not found because of absence of parameter.");
                         }catch (IOException e){
                             e.printStackTrace();
-                        } catch (ServletException e) {
-                            e.printStackTrace();
                         }
-                    }
+                        }
                     return str;
                 }
             }
