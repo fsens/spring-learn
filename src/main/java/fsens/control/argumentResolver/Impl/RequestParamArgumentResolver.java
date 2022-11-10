@@ -21,6 +21,7 @@ public class RequestParamArgumentResolver implements ArgumentResolver {
 
         for (Annotation paramAn : paramAns){
             //当前Class对象如果是参数Class对象的父类，父接口，或者是相同，都会返回true。
+            //这里用isAssignableFrom等价于用instanceof
             if(myRequestParam.class.isAssignableFrom(paramAn.getClass())){
                 return true;
             }
@@ -45,17 +46,48 @@ public class RequestParamArgumentResolver implements ArgumentResolver {
 
                 String value = mrp.value();
                 String str = request.getParameter(value);
-                    if(mrp.required()&&(!(str.equals("name"))&& !(str.equals("sex")) && !(str.equals("age")))){
+                /**
+                 * 两种情况:
+                 * 1.输入为空,这里得分required为true还是false来讨论
+                 * 2.输入非空，分输入错误和输入正确来讨论，这时和required的值无关
+                 */
+                //str == null
+                if(str == null){
+                    //required == true
+                    if(mrp.required()){
+                        try {
+                            response.getWriter().write("404 not found because of absence of parameter(s).");
+                            return null;
+                        }
+                        catch (IOException e){
+                            e.printStackTrace();
+                        }
+                    }
+                    //required == false
+                    //返回""是为了防止method.invoke的参数为空。如果为空，会抛出错误
+                    else{
+                        return "";
+                    }
+                }
+                //str != null
+                else {
+                    //参数输入正确
+                    if(str.equals("name") || str.equals("sex") || str.equals("age")){
+                        return str;
+                    }
+                    //参数输入错误
+                    else {
                         try{
-                            response.getWriter().write("404 not found because of absence of parameter.");
+                            response.getWriter().write("404 not found because of wrong parameter(s).");
+                            return null;
                         }catch (IOException e){
                             e.printStackTrace();
                         }
-                        }
-                    return str;
+                    }
                 }
             }
-        return null;
         }
+        return null;
     }
+}
 

@@ -18,11 +18,11 @@ public class TestController {
     private MyService queryService;
 
     @myRequestMapping("/query")
-    public void queryName(HttpServletRequest request, HttpServletResponse response,
-                      @myRequestParam("info")String name){
+    public void queryInfo(HttpServletRequest request, HttpServletResponse response,
+                      @myRequestParam(value = "info")String info){
         try {
             PrintWriter pw = response.getWriter();
-            String result = queryService.query(name);
+            String result = queryService.query(info);
             pw.write(result);
         }
         catch (IOException e){

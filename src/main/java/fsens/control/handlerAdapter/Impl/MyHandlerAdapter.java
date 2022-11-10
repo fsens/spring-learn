@@ -28,6 +28,8 @@ public class MyHandlerAdapter implements HandlerAdapter {
                      Map<String, Object> beans) {
         //得到实参
         Object[] args = argumentResolver(request, response, handler, beans);
+        //如果实参里面有任意一个解析不正确，则返回
+        if(args == null)  return;
         //得到具体的方法
         Method method = handler.getMethod();
         //得到method的路径
@@ -35,7 +37,7 @@ public class MyHandlerAdapter implements HandlerAdapter {
         //得到method所在的类
         Object instance = beans.get("/" + path.split("/")[1]);
         try {
-            //调用API执行controller
+            //调用反射API执行controller
             method.invoke(instance, args);
         } catch (IllegalAccessException e) {
             e.printStackTrace();
@@ -78,6 +80,10 @@ public class MyHandlerAdapter implements HandlerAdapter {
 
                 //只能解析单一注解
                 if (ar.support(paramClazz, paramIndex, method)) {
+                    Object resolvedParam = ar.argumentResolver(request, response, paramClazz, paramIndex, method);
+                    //如果获得了空参数,则返回空
+                    if(resolvedParam == null)   return null;
+                    //正常情况就返回解析的实参
                     args[i++] = ar.argumentResolver(request, response, paramClazz, paramIndex, method);
                 }
             }
